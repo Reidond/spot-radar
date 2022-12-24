@@ -1,0 +1,16 @@
+{
+  "name": "spot-radar",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/webpack-builder": "3.0.0",
+    "@sidebase/nuxt-auth": "^0.3.2",
+    "nuxt": "3.0.0"
+  }
+}
