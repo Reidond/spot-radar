@@ -16,6 +16,10 @@ export default defineNuxtConfig({
       origin: process.env.NUXT_AUTH_ORIGIN,
       basePath: "/api/auth",
     },
+    supabase: {
+      url: process.env.NUXT_SUPABASE_URL,
+      key: process.env.NUXT_SUPABASE_KEY,
+    },
   },
   modules: ["@sidebase/nuxt-auth"],
 });
