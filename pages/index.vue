@@ -13,14 +13,30 @@ const onClick = () => {
 };
 
 const buttonText = computed(() =>
-  status.value === "authenticated" ? "log out to spotify" : "log in to spotify"
+  status.value === "authenticated"
+    ? "log out from spotify"
+    : "log in to spotify"
+);
+
+const helloText = computed(() =>
+  status.value === "authenticated" && data.value?.user
+    ? `Hello, ${data.value?.user.name}`
+    : "Hello, please login"
 );
 </script>
 
 <template>
   <div>
-    <h1>Hello</h1>
-    <p>{{ data || "please login" }}</p>
+    <h1>{{ helloText }}</h1>
     <button @click="onClick">{{ buttonText }}</button>
+    <SpotifyHeadlessPlaylists v-slot="{ items }">
+      <ul>
+        <li v-for="{ id, name, external_urls } in items" :key="id">
+          <a :href="external_urls.spotify">
+            {{ name }}
+          </a>
+        </li>
+      </ul>
+    </SpotifyHeadlessPlaylists>
   </div>
 </template>
