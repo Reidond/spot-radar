@@ -29,14 +29,16 @@ const helloText = computed(() =>
   <div>
     <h1>{{ helloText }}</h1>
     <button @click="onClick">{{ buttonText }}</button>
-    <SpotifyHeadlessPlaylists v-slot="{ items }">
-      <ul>
-        <li v-for="{ id, name, external_urls } in items" :key="id">
-          <a :href="external_urls.spotify">
-            {{ name }}
-          </a>
-        </li>
-      </ul>
-    </SpotifyHeadlessPlaylists>
+    <SessionOnly>
+      <SpotifyHeadlessPlaylists v-slot="{ items }">
+        <ul>
+          <li v-for="{ id, name, external_urls } in items" :key="id">
+            <a :href="external_urls.spotify">
+              {{ name }}
+            </a>
+          </li>
+        </ul>
+      </SpotifyHeadlessPlaylists>
+    </SessionOnly>
   </div>
 </template>
