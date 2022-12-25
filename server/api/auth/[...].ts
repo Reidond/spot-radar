@@ -2,6 +2,10 @@ import { SpotifyProvider } from "~/utils/auth-providers/spotify";
 import { NuxtAuthHandler } from "#auth";
 import { useRuntimeConfig } from "#imports";
 import { JWT } from "next-auth/jwt";
+import {
+  registerUser,
+  isUserRegistered,
+} from "~~/utils/supabase/register-user";
 
 const config = useRuntimeConfig();
 
@@ -68,6 +72,12 @@ export default NuxtAuthHandler({
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
         token.id = profile.id;
+
+        // try to register user here
+        const weHaveUser = await isUserRegistered(profile.id);
+        if (!weHaveUser) {
+          await registerUser(profile.id);
+        }
       }
 
       if (token.expiresIn && Date.now() > token.expiresIn) {
@@ -83,6 +93,14 @@ export default NuxtAuthHandler({
       session.accessToken = token.accessToken as string;
       session.refreshToken = token.refreshToken as string;
       session.user.id = token.id as string;
+
+      // try to refresh user in db
+      // TODO: also prob need to update if id different
+      const weHaveUser = await isUserRegistered(session.user.id);
+      if (!weHaveUser) {
+        await registerUser(session.user.id);
+      }
+
       return session;
     },
   },
