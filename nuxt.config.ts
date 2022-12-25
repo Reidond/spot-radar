@@ -17,6 +17,5 @@ export default defineNuxtConfig({
       basePath: "/api/auth",
     },
   },
-  builder: "webpack",
   modules: ["@sidebase/nuxt-auth"],
 });
