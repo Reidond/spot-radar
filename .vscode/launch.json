@@ -7,15 +7,10 @@
     {
       "name": "Debug Nuxt: Server",
       "type": "node",
-      "presentation": {
-        "hidden": false,
-        "group": "1 PROGRAM:NUXT",
-        "order": 2
-      },
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"]
+      "program": "node_modules/nuxt/bin/nuxt.mjs",
+      "args": ["dev"]
     }
   ]
 }
