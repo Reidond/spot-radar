@@ -11,19 +11,22 @@ export interface SpotifyProfile extends Record<string, any> {
   images: SpotifyImage[];
 }
 
+type SpotifyProviderParams<P extends SpotifyProfile> = {
+  options: OAuthUserConfig<P>;
+  scope?: string[];
+};
+
 export function SpotifyProvider<P extends SpotifyProfile>(
-  options: OAuthUserConfig<P>,
-  scope?: string[]
+  params: SpotifyProviderParams<P>
 ): OAuthConfig<P> {
-  scope ??= ["user-read-email", "user-read-private"];
+  params.scope ??= ["user-read-email", "user-read-private"];
+  const scopeStr = params.scope.join(" ");
 
   return {
     id: "spotify",
     name: "Spotify",
     type: "oauth",
-    authorization: `https://accounts.spotify.com/authorize?scope=${scope.join(
-      " "
-    )}`,
+    authorization: `https://accounts.spotify.com/authorize?scope=${scopeStr}`,
     token: "https://accounts.spotify.com/api/token",
     userinfo: "https://api.spotify.com/v1/me",
     profile(profile: SpotifyProfile) {
@@ -34,15 +37,6 @@ export function SpotifyProvider<P extends SpotifyProfile>(
         image: profile.images?.[0]?.url,
       };
     },
-    style: {
-      logo: "https://raw.githubusercontent.com/nextauthjs/next-auth/main/packages/next-auth/provider-logos/spotify.svg",
-      logoDark:
-        "https://raw.githubusercontent.com/nextauthjs/next-auth/main/packages/next-auth/provider-logos/spotify.svg",
-      bg: "#fff",
-      text: "#2ebd59",
-      bgDark: "#fff",
-      textDark: "#2ebd59",
-    },
-    options,
+    options: params.options,
   };
 }

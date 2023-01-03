@@ -5,7 +5,7 @@ import { JWT } from "next-auth/jwt";
 import {
   registerUser,
   isUserRegistered,
-} from "~~/utils/supabase/register-user";
+} from "~~/utils/supabase/spotify-users.service";
 
 const config = useRuntimeConfig();
 
@@ -105,12 +105,12 @@ export default NuxtAuthHandler({
     },
   },
   providers: [
-    SpotifyProvider(
-      {
+    SpotifyProvider({
+      options: {
         clientId: config.spotify.clientId,
         clientSecret: config.spotify.clientSecret,
       },
-      ["user-read-email", "user-read-private", "playlist-read-private"]
-    ),
+      scope: ["user-read-email", "user-read-private", "playlist-read-private"],
+    }),
   ],
 });
